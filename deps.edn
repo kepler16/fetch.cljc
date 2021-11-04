@@ -1,0 +1,4 @@
+{:deps
+ {funcool/promesa {:mvn/version "6.0.2"}
+  cljs-bean/cljs-bean {:mvn/version "1.7.0"}
+  metosin/sieppari {:mvn/version "0.0.0-alpha13"}}}
