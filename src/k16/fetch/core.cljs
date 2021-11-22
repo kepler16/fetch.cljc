@@ -5,6 +5,12 @@
             [cljs.reader :as reader]
             [sieppari.core :as sieppari]))
 
+(defn browser? []
+  (and (exists? js/window)
+       (not (exists? js/nw))))
+
+(def fetch-impl (if (browser?) js/fetch nfetch))
+
 (defn- as-transform [f response]
   (-> response
       meta
@@ -47,7 +53,7 @@
 
 (defn- transform-response-node [n]
   (cond
-    (instance? nfetch/Headers n)
+    (instance? (.-Headers fetch-impl) n)
     (->> n
          .entries
          es6-iterator-seq
@@ -73,7 +79,7 @@
             (update ctx :response response->clj))})
 
 (defn handler [[url fetch-options]]
-  (nfetch url fetch-options))
+  (fetch-impl url fetch-options))
 
 (def internal-pre-interceptors
   [{:leave (fn [ctx]

@@ -1,6 +1,8 @@
-/.nrepl-port
-/.clj-kondo/
-/.cpcache/
-/.lsp/
-/target/
-/node_modules/
+.cpcache
+.clj-kondo
+.lsp
+.shadow-cljs/
+.cpcache
+node_modules/
+.nrepl-port
+target/

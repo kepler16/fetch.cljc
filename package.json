@@ -1,12 +1,33 @@
 {
-    "name": "fetch.cljc",
-    "author": "Alexis Vincent <mail@alexisvincent.io>",
-    "license": "MIT",
-
+  "name": "kepler16/fetch.cljc",
+  "author": "Alexis Vincent <mail@alexisvincent.io>",
+  "license": "MIT",
+  "scripts": {
+    "node:build": "shadow-cljs release node-test",
+    "node:run-once": "node target/node-test.js",
+    "node:ci": "npm run node:build && npm run node:run-once",
+    "node:watch": "shadow-cljs watch node-test",
+    "browser:build": "shadow-cljs release browser-test",
+    "browser:run-once": "karma start --single-run",
+    "browser:ci": "npm run browser:build && npm run browser:run-once",
+    "browser:start": "karma start",
+    "browser:watch": "shadow-cljs watch browser-test",
+    "all:ci": "npm run node:ci && npm run browser:ci"
+  },
+  "dependencies": {
+    "encoding": "^0.1.13",
+    "node-fetch": "^v2.6.6"
+  },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^8.0.2"
+    "@semantic-release/github": "^8.0.2",
+    "shadow-cljs": "2.16.0",
+    "fetch-mock": "^9.11.0",
+    "karma": "^6.3.9",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-cljs-test": "^0.1.0",
+    "supports-color": "9.0.2"
   }
 }

@@ -1,5 +1,5 @@
 {:mvn/repos {"github-kepler" {:url "https://maven.pkg.github.com/kepler16/fetch.cljc"}}
-
+ :paths ["src" "test"]
  :deps
  {funcool/promesa {:mvn/version "6.0.2"}
   cljs-bean/cljs-bean {:mvn/version "1.7.0"}
