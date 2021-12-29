@@ -3,13 +3,15 @@ on: [push]
 jobs:
   test-java:
     runs-on: macos-latest
+    env:
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/checkout@v2
         with:
           repository: transit-engineering/actions
           ref: v0.0.1
-          token: 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
+          token: ${{secrets.GITHUB_TOKEN}}
           path: .github/transit
 
       - run: ls -al ./github/transit
