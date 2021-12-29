@@ -13,8 +13,10 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
           path: .github/actions
 
-      - uses: ./.github/actions/setup-java
-      - uses: ./.github/actions/setup-clojure
-      - run: java --version
-      - run: clojrue --version
-      - run: bb --version
+      - run: echo ${{ secrets.GITHUB_ACTOR }}
+
+      # - uses: ./.github/actions/setup-java
+      # - uses: ./.github/actions/setup-clojure
+      # - run: java --version
+      # - run: clojrue --version
+      # - run: bb --version
