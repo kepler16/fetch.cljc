@@ -10,7 +10,7 @@ jobs:
         with:
           repository: kepler16/authzed.clj
           ref: v0.0.1
-          token: ${{secrets.GITHUB_TOKEN}}
+          token: ${{secrets.ORG_GITHUB_TOKEN}}
           path: .github/authzed
 
       - run: ls -al .github/authzed
@@ -19,7 +19,7 @@ jobs:
         with:
           repository: kepler16/actions
           ref: v0.0.1
-          token: ${{secrets.GITHUB_TOKEN}}
+          token: ${{secrets.ORG_GITHUB_TOKEN}}
           path: .github/remote
 
       - run: ls -al ./github/remote
