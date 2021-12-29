@@ -4,5 +4,13 @@ jobs:
   test-java:
     runs-on: macos-latest
     steps:
-      - uses: transit-engineering/actions/setup-java@v0.0.1
+      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          repository: myorg/myaction
+          ref: v0.0.1
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: .github/actions
+
+      - uses: ./.github/actions/setup-java
       - run: java --version
