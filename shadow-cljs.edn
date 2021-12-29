@@ -6,4 +6,11 @@
 
           :browser-test
           {:target :karma
-           :output-to "target/browser-test.js"}}}
+           :output-to "target/browser-test.js"}
+
+          :test-server
+          {:target     :node-script
+           :output-to  "target/test-server.js"
+           :main       test-server/start
+           :devtools   {:before-load  test-server/stop
+                        :after-load   test-server/start}}}}

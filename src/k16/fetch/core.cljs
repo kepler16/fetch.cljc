@@ -141,6 +141,10 @@
    {:accept "application/edn"
     :response-transformer as-edn}))
 
+(def accept-text-interceptor
+  (create-accept-interceptor
+   {:accept "text/plain"
+    :response-transformer as-text}))
 (comment
 
   (-> (fetch "https://api.staging.transit.dev/v2/campaign/pull-campaigns"
