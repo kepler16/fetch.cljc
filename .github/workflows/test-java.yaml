@@ -14,5 +14,5 @@ jobs:
           path: .github/actions
 
       - run: tree .github/actions
-      - uses: .github/actions/setup-java
+      - uses: ./.github/actions/setup-java
       - run: java --version
