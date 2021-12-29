@@ -4,12 +4,11 @@ jobs:
   test-java:
     runs-on: macos-latest
     steps:
-      - run: echo ${{secrets.GITHUB_TOKEN}}
       - uses: actions/checkout@v2
         with:
           repository: transit-engineering/actions
           ref: v0.0.1
-          token: ${{secrets.ORG_GITHUB_TOKEN}}
+          token: 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
           path: .github/transit
 
       - run: ls -al ./github/transit
