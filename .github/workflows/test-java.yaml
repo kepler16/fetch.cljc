@@ -2,7 +2,7 @@ name: Test java (remove after use)
 on: [push]
 jobs:
   test-java:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
