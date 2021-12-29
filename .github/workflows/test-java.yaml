@@ -7,10 +7,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/checkout@v2
         with:
-          repository: myorg/myaction
+          repository: transit-engineering/actions
           ref: v0.0.1
           token: ${{ secrets.GITHUB_TOKEN }}
-          path: .github/actions
+          path: .github/transit
 
-      - uses: ./.github/actions/setup-java
+      - run: ls -al ./github/transit
+      - uses: ./.github/transit/.github/workflows/setup-java
       - run: java --version
