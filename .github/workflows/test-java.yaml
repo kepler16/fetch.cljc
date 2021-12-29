@@ -16,5 +16,5 @@ jobs:
       - uses: ./.github/actions/setup-java
       - uses: ./.github/actions/setup-clojure
       - run: java --version
-      - run: clojrue --version
+      - run: clojure --version
       - run: bb --version
