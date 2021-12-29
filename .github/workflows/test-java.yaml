@@ -1,0 +1,8 @@
+name: Test java (remove after use)
+on: [push]
+jobs:
+  test-java:
+    runs-on: macos-latest
+    steps:
+      - uses: transit-engineering/actions/setup-java@v0.0.1
+      - run: java --version
