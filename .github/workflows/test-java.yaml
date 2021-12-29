@@ -9,10 +9,12 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: kepler16/actions
-          ref: v0.0.2
+          ref: v0.0.3
           token: ${{secrets.GITHUB_TOKEN}}
           path: .github/actions
 
-      - run: tree .github/actions
       - uses: ./.github/actions/setup-java
+      - uses: ./.github/actions/setup-clojure
       - run: java --version
+      - run: clojrue --version
+      - run: bb --version
