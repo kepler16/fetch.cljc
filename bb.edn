@@ -1,0 +1,21 @@
+{:tasks
+ {:init (defonce test-server (atom nil))
+
+  :requires ([babashka.fs :as fs]
+             [babashka.wait :as wait]
+             [babashka.process :as p :refer [process check]]
+             [cheshire.core :as json])
+
+  :enter (println "--- " (:name (current-task)))
+
+  clean       (shell "rm -rf target")
+  build       (shell "npm run build")
+  server      (reset! test-server (process '[npm run server]))
+  -node-test  (shell "npm run node")
+  -karma-test (shell "npm run karma")
+  -test*      {:depends [-node-test -karma-test]}
+  -test       {:task  (do (wait/wait-for-port "localhost" 3001)
+                          (run '-test* {:parallel true}))
+               :leave (p/destroy-tree (deref test-server))}
+  test        {:depends [server] :task (run '-test)}
+  ci          {:depends [clean build server] :task (run '-test)}}}

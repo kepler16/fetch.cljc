@@ -4,7 +4,7 @@
            :output-to "target/node-test.js"
            :dev {:autorun true}}
 
-          :browser-test
+          :karma-test
           {:target :karma
            :output-to "target/browser-test.js"}
 

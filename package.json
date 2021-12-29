@@ -3,16 +3,15 @@
   "author": "Alexis Vincent <mail@alexisvincent.io>",
   "license": "MIT",
   "scripts": {
+    "build": "shadow-cljs release test-server node-test karma-test",
+    "server": "node target/test-server.js",
     "node:build": "shadow-cljs release node-test",
-    "node:run-once": "node target/node-test.js",
-    "node:ci": "npm run node:build && npm run node:run-once",
+    "node": "node target/node-test.js",
     "node:watch": "shadow-cljs watch node-test",
-    "browser:build": "shadow-cljs release browser-test",
-    "browser:run-once": "karma start --single-run",
-    "browser:ci": "npm run browser:build && npm run browser:run-once",
-    "browser:start": "karma start",
-    "browser:watch": "shadow-cljs watch browser-test",
-    "all:ci": "npm run node:ci && npm run browser:ci"
+    "karma:build": "shadow-cljs release karma-test",
+    "karma": "karma start --single-run",
+    "karma:start": "karma start",
+    "karma:watch": "shadow-cljs watch karma-test"
   },
   "dependencies": {
     "encoding": "^0.1.13",
