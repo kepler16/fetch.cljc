@@ -8,18 +8,9 @@ jobs:
 
       - uses: actions/checkout@v2
         with:
-          repository: kepler16/authzed.clj
-          ref: v0.0.1
-          token: ${{secrets.ORG_GITHUB_TOKEN}}
-          path: .github/authzed
-
-      - run: ls -al .github/authzed
-
-      - uses: actions/checkout@v2
-        with:
           repository: kepler16/actions
           ref: v0.0.1
-          token: ${{secrets.ORG_GITHUB_TOKEN}}
+          token: ${{secrets.GITHUB_TOKEN}}
           path: .github/remote
 
       - run: ls -al ./github/remote
