@@ -11,7 +11,7 @@ jobs:
         with:
           repository: transit-engineering/actions
           ref: v0.0.1
-          token: ${{secrets.GITHUB_TOKEN}}
+          token: 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
           path: .github/transit
 
       - run: ls -al ./github/transit
