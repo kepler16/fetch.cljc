@@ -13,6 +13,6 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
           path: .github/remote
 
-      - run: ls -al ./github/remote
+      - run: ls -al .github/remote
       - uses: ./.github/remote/actions/setup-java
       - run: java --version
