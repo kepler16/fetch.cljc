@@ -9,10 +9,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: kepler16/actions
-          ref: v0.0.1
+          ref: v0.0.2
           token: ${{secrets.GITHUB_TOKEN}}
-          path: .github/remote
+          path: .github/actions
 
-      - run: ls -al .github/remote
-      - uses: ./.github/remote/actions/setup-java
+      - run: tree .github/actions
+      - uses: github/actions/setup-java
       - run: java --version
