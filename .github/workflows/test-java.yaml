@@ -9,11 +9,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/checkout@v2
         with:
-          repository: transit-engineering/actions
+          repository: kepler16/actions
           ref: v0.0.1
           token: ${{secrets.GITHUB_TOKEN}}
-          path: .github/transit
+          path: .github/remote
 
-      - run: ls -al ./github/transit
-      - uses: ./.github/transit/.github/workflows/setup-java
+      - run: ls -al ./github/remote
+      - uses: ./.github/remote/actions/setup-java
       - run: java --version
