@@ -15,7 +15,11 @@ jobs:
           ref: d8c42fe9fa72ba12cd7ba86ad2707ebcb81188d3
           path: .github/actions
 
+      - uses: ./.github/actions/setup-java
+      - uses: ./.github/actions/setup-clojure
+      - uses: ./.github/actions/setup-babashka
       - uses: ./.github/actions/setup-node
+
       - run: npm ci --ignore-scripts
       - run: bb run ci
 
