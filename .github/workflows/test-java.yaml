@@ -27,5 +27,5 @@ jobs:
 
       - if: ${{ steps.semantic.outputs.next-version }} != ${{ steps.semantic.outputs.current-version }}
         run: |
-         clojure -T:build release-prepare :version "${{ steps.semantic.outputs.next-version }}"
+         clojure -T:build release-prepare :version \"${{ steps.semantic.outputs.next-version }}\"
 
