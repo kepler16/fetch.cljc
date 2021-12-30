@@ -5,13 +5,13 @@
   "scripts": {
     "build": "shadow-cljs -A:test release test-server node-test karma-test",
     "server": "node target/test-server.js",
-    "node:build": "shadow-cljs release node-test",
+    "node:build": "shadow-cljs -A:test release node-test",
     "node": "node target/node-test.js",
-    "node:watch": "shadow-cljs watch node-test",
-    "karma:build": "shadow-cljs release karma-test",
+    "node:watch": "shadow-cljs -A:test watch node-test",
+    "karma:build": "shadow-cljs -A:test release karma-test",
     "karma": "karma start --single-run",
     "karma:start": "karma start",
-    "karma:watch": "shadow-cljs watch karma-test"
+    "karma:watch": "shadow-cljs -A:test watch karma-test"
   },
   "dependencies": {
     "encoding": "^0.1.13",

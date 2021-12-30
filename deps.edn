@@ -1,11 +1,12 @@
 {:mvn/repos {"github-kepler" {:url "https://maven.pkg.github.com/kepler16/fetch.cljc"}}
- :paths ["src" "test"]
+ :paths ["src"]
  :deps
  {funcool/promesa {:mvn/version "6.0.2"}
   cljs-bean/cljs-bean {:mvn/version "1.7.0"}
   metosin/sieppari {:mvn/version "0.0.0-alpha13"}}
 
  :aliases
- {:test {:extra-deps {thheller/shadow-cljs {:mvn/version "2.16.0"}}}
+ {:test {:extra-paths ["test"]
+         :extra-deps {thheller/shadow-cljs {:mvn/version "2.16.0"}}}
   :build {:deps {io.github.seancorfield/build-clj {:git/tag "v0.6.3" :git/sha "9b8e09b"}}
           :ns-default build}}}
