@@ -27,4 +27,12 @@ jobs:
       - run: node --version
       - run: npm --version
       - run: npm install
-      - run: clojure -Sdeps
+
+      - id: first
+        run: |
+          VAR=$(test -e .VAR && cat .VAR || echo "NOV-VAR")
+          echo $VAR
+          echo '::set-output name=var::$VAR'
+
+      - id: second
+        run: echo ${{ steps.first.outputs.var }}
