@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: kepler16/actions
-          ref: 9209e405d7a7919e6d08a8c944ef5462ef453050
+          ref: e05c36f8895210251d3aac9307adfed845764749
           token: ${{secrets.GITHUB_TOKEN}}
           path: .github/actions
 
@@ -19,7 +19,12 @@ jobs:
 
       - uses: ./.github/actions/setup-clojure
       - uses: ./.github/actions/setup-babashka
+      - uses: ./.github/actions/setup-node
 
       - run: java --version
       - run: clojure --version
       - run: bb --version
+      - run: node --version
+      - run: npm --version
+      - run: npm install
+      - run: clojure -Sdeps
