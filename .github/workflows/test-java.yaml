@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: kepler16/actions
-          ref: 4e9dd68e2308470420ef794779b8e8a8577db00c
+          ref: v0.0.6
           path: .github/actions
 
       - uses: ./.github/actions/setup-java
