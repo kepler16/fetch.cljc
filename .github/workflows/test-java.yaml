@@ -17,7 +17,7 @@ jobs:
         with:
           token: ${{secrets.GITHUB_TOKEN}}
 
-      - uses: ./.github/actions/setup-clojure
+      - uses: .github/actions/setup-clojure
       - uses: ./.github/actions/setup-babashka
       - uses: ./.github/actions/setup-node
 
