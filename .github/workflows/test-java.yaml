@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: kepler16/actions
-          ref: da32fefe8d68b3ba7bf89fc006ccc0b904189da8
+          ref: d372f26f89058bb8f3f6350aee660ac704ac771f
           token: ${{secrets.GITHUB_TOKEN}}
           path: .github/actions
 
