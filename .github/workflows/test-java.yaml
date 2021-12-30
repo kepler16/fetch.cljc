@@ -8,34 +8,36 @@ jobs:
       - run: |
           git fetch --depth=1 origin +refs/tags/*:refs/tags/*
           git tag --list
+          git tag -l --sort=-creatordate | head -n 1
+          git describe --abbrev=0 --tags | tr -d v
 
-      - uses: actions/checkout@v2
-        with:
-          repository: kepler16/actions
-          ref: 43d6c96ddee8aa29a545846d926ba7b67114760e
-          token: ${{secrets.GITHUB_TOKEN}}
-          path: .github/actions
+      # - uses: actions/checkout@v2
+      #   with:
+      #     repository: kepler16/actions
+      #     ref: 43d6c96ddee8aa29a545846d926ba7b67114760e
+      #     token: ${{secrets.GITHUB_TOKEN}}
+      #     path: .github/actions
 
-      - uses: ./.github/actions/setup-java
-        with:
-          token: ${{secrets.GITHUB_TOKEN}}
+      # - uses: ./.github/actions/setup-java
+      #   with:
+      #     token: ${{secrets.GITHUB_TOKEN}}
 
-      - uses: ./.github/actions/setup-clojure
-      - uses: ./.github/actions/setup-babashka
-      - uses: ./.github/actions/setup-node
+      # - uses: ./.github/actions/setup-clojure
+      # - uses: ./.github/actions/setup-babashka
+      # - uses: ./.github/actions/setup-node
 
-      - run: java --version
-      - run: clojure --version
-      - run: bb --version
-      - run: node --version
-      - run: npm --version
-      - run: npm ci --ignore-scripts
+      # - run: java --version
+      # - run: clojure --version
+      # - run: bb --version
+      # - run: node --version
+      # - run: npm --version
+      # - run: npm ci --ignore-scripts
 
-      - id: semantic
-        uses: ./.github/actions/semantic-version
-        with:
-          token: ${{secrets.GITHUB_TOKEN}}
+      # - id: semantic
+      #   uses: ./.github/actions/semantic-version
+      #   with:
+      #     token: ${{secrets.GITHUB_TOKEN}}
 
-      - run: |
-          echo "current-version= ${{ steps.semantic.outputs.current-version }}"
-          echo "next-version= ${{ steps.semantic.outputs.next-version }}"
+      # - run: |
+      #     echo "current-version= ${{ steps.semantic.outputs.current-version }}"
+      #     echo "next-version= ${{ steps.semantic.outputs.next-version }}"
