@@ -13,7 +13,6 @@ jobs:
         with:
           repository: kepler16/actions
           ref: 4e9dd68e2308470420ef794779b8e8a8577db00c
-          token: ${{secrets.GITHUB_TOKEN}}
           path: .github/actions
 
       - uses: ./.github/actions/setup-java
