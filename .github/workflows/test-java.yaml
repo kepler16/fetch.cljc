@@ -33,7 +33,7 @@ jobs:
         run: |
           VAR=$(test -e .VAR && cat .VAR || echo "NOV-VAR")
           echo " orig var $VAR"
-          echo '::set-output name=var::"$VAR"'
+          echo '::set-output name=var::$(echo $VAR)'
 
       - id: second
         name: SEcond
