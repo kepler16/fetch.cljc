@@ -25,9 +25,7 @@ jobs:
       - id: semantic
         uses: ./.github/actions/semantic-version
 
-      - run: |
-          echo "current-version= ${{ steps.semantic.outputs.current-version }}"
-          echo "next-version= ${{ steps.semantic.outputs.next-version }}"
-
       - if: ${{ steps.semantic.outputs.next-version }} != ${{ steps.semantic.outputs.current-version }}
-        run: echo "!!!!!!!!!!!! PUBLISH"
+        run: |
+         clojure -T:build release-prepare :version "${{ steps.semantic.outputs.next-version }}"
+
