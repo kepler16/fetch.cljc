@@ -20,6 +20,10 @@
        (str (:host config) ":" (:port config))
        (cons path))))
 
+(deftest test-should-fail
+  (testing "any"
+    (is (= 1 2))))
+
 (deftest test-mocked-post-request
   (testing "post json"
     (async done
