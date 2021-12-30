@@ -27,6 +27,9 @@ jobs:
 
       - run: npm ci --ignore-scripts
 
+      - name: Run Tests
+        run: bb run ci
+
       - id: semantic
         uses: ./.github/actions/semantic-version
 

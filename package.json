@@ -3,7 +3,7 @@
   "author": "Alexis Vincent <mail@alexisvincent.io>",
   "license": "MIT",
   "scripts": {
-    "build": "shadow-cljs release test-server node-test karma-test",
+    "build": "shadow-cljs -A:test release test-server node-test karma-test",
     "server": "node target/test-server.js",
     "node:build": "shadow-cljs release node-test",
     "node": "node target/node-test.js",
