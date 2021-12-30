@@ -5,6 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: |
+          git fetch --prune --unshallow --tags
+          echo exit code $?
+          git tag --list
 
       - uses: actions/checkout@v2
         with:
