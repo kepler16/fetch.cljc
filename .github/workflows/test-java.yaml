@@ -4,23 +4,19 @@ jobs:
   test-java:
     runs-on: ubuntu-latest
     env:
-      MYVAR: "!!!!!!!!!"
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
     steps:
       - uses: actions/checkout@v2
 
       - uses: actions/checkout@v2
         with:
           repository: kepler16/actions
-          ref: c7e4427e002d8e1b2a3578c8edd4cf1e870a4da0
+          ref: 3577d7c8481d37f6e28a472e94c12afc8a7e9efb
           token: ${{secrets.GITHUB_TOKEN}}
           path: .github/actions
 
-      - run: echo "$MYVAR"
-
       - uses: ./.github/actions/setup-java
-        with:
-          token: ${{secrets.GITHUB_TOKEN}}
-
       - uses: ./.github/actions/setup-clojure
       - uses: ./.github/actions/setup-babashka
       - uses: ./.github/actions/setup-node
@@ -29,8 +25,6 @@ jobs:
 
       - id: semantic
         uses: ./.github/actions/semantic-version
-        with:
-          token: ${{secrets.GITHUB_TOKEN}}
 
       - run: |
           echo "current-version= ${{ steps.semantic.outputs.current-version }}"
