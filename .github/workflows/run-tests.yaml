@@ -1,4 +1,4 @@
-name: Test java (remove after use)
+name: Run unit and end-2-end tests
 on: [push]
 jobs:
   test-java:
