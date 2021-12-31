@@ -17,7 +17,7 @@ jobs:
           ref: 980f54606df6475f660f7954a49605bea0ba7126
           path: .github/actions
           other: $SEMANTIC_PATH
-          other2: ${SEMANTIC_PATH}
+          other2: ${{ evn.SEMANTIC_PATH }}
 
       - uses: ./.github/actions/setup-java
       - uses: ./.github/actions/setup-clojure
