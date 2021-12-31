@@ -5,9 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      SEMANTIC_PATH: ./.github/actions
+      SEMANTIC_PATH: "./.github/actions"
 
     steps:
+      - run: echo $SEMANTIC_PATH
+      - run: echo "$SEMANTIC_PATH"
       - uses: actions/checkout@v2
 
       - uses: actions/checkout@v2
