@@ -9,7 +9,6 @@ jobs:
 
     steps:
       - run: echo $SEMANTIC_PATH
-      - run: echo "$SEMANTIC_PATH"
       - uses: actions/checkout@v2
 
       - uses: actions/checkout@v2
@@ -17,6 +16,8 @@ jobs:
           repository: kepler16/actions
           ref: 980f54606df6475f660f7954a49605bea0ba7126
           path: .github/actions
+          other: $SEMANTIC_PATH
+          other2: ${SEMANTIC_PATH}
 
       - uses: ./.github/actions/setup-java
       - uses: ./.github/actions/setup-clojure
