@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: kepler16/actions
-          ref: b007ba925de541a3be31aacead0f3e1dbff3af58
+          ref: fef0a78b02a442a124c2326a4322d39e86a867fa
           path: ${{ env.SEMANTIC_PATH }}
 
       - uses: ./.github/actions/setup-java
@@ -25,7 +25,7 @@ jobs:
       - id: semi
         uses: ./.github/actions/semantic-version
 
-      - run: echo ${{ steps.outputs.semi.next-version }}
+      - run: echo ${{ steps.semi.outputs.next-version }}
 
       # - name: Run Tests
       #   run: bb run ci
