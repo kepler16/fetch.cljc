@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      SEMANTIC_PATH: "./.github/actions"
+      SEMANTIC_PATH: .github/actions
 
     steps:
       - run: echo $SEMANTIC_PATH
