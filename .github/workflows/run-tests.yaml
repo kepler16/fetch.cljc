@@ -16,7 +16,7 @@ jobs:
         with:
           repository: kepler16/actions
           ref: 980f54606df6475f660f7954a49605bea0ba7126
-          path: "$SEMANTIC_PATH"
+          path: .github/actions
 
       - uses: ./.github/actions/setup-java
       - uses: ./.github/actions/setup-clojure
