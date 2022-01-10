@@ -1,13 +1,8 @@
-name: Publish package
-on:
-  push:
-    branches:
-      - master
-
+name: Run unit and end-2-end tests
+on: [push]
 jobs:
-  build-and-deploy:
+  test-java:
     runs-on: ubuntu-latest
-
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       SEMANTIC_PATH: .github/actions
@@ -28,17 +23,5 @@ jobs:
       - run: npm ci --ignore-scripts
       - name: Run Tests
         run: bb run ci
-
-      - id: semantic
-        uses: ./.github/actions/semantic-version
-
-      - if: ${{ steps.semantic.outputs.next-version }} != ${{ steps.semantic.outputs.current-version }}
-        run: |
-         clojure -T:build release-prepare :version \"${{ steps.semantic.outputs.next-version }}\"
-         clojure -T:build release-publish :version \"${{ steps.semantic.outputs.next-version }}\"
-
-      - name: Semantic Release
-        run: npx semantic-release
-
 
 
