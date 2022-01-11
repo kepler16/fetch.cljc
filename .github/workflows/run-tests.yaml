@@ -1,8 +1,9 @@
 name: Run unit and end-2-end tests
 
 on:
-  pull_request:
-      types: [opened, edited]
+  push:
+    branches:
+      - '!master'
 
 jobs:
   test-java:
