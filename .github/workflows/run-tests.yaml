@@ -1,5 +1,10 @@
 name: Run unit and end-2-end tests
-on: [push]
+
+on:
+  push:
+    branches-ignore:
+      - 'master'
+
 jobs:
   test-java:
     runs-on: ubuntu-latest
