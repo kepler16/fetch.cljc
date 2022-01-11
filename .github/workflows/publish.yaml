@@ -1,8 +1,7 @@
 name: Publish package
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+      types: [opened, edited]
 
 jobs:
   build-and-deploy:
