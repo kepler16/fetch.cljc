@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: kepler16/actions
-          ref: v0.0.7
+          ref: 99a71b9c8fa776ec7ac812dd2204f8ce45189937
           path: ${{ env.SEMANTIC_PATH }}
 
       - uses: ./.github/actions/setup-java
