@@ -2,8 +2,8 @@ name: Run unit and end-2-end tests
 
 on:
   push:
-    branches:
-      - '!master'
+    branches-ignore:
+      - 'master'
 
 jobs:
   test-java:
