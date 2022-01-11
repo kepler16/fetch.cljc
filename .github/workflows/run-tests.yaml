@@ -1,5 +1,8 @@
 name: Run unit and end-2-end tests
-on: [push]
+on:
+  pull_request:
+      types: [opened, edited]
+
 jobs:
   test-java:
     runs-on: ubuntu-latest
