@@ -13,6 +13,31 @@
 
 (def fetch-impl (if (browser?) js/fetch nfetch))
 
+(defn headers->map [headers]
+  (->> headers
+       (.entries)
+       (es6-iterator-seq)
+       (mapv b/->clj)
+       (into {})))
+
+(defn log-response [response]
+  (let [cloned-response (.clone response)]
+    (p/then
+     (.text cloned-response)
+     (fn [body]
+       (js/console.log
+        "<<< "
+        (clj->js
+         {:ok          (.-ok cloned-response)
+          :redirected  (.-redirected cloned-response)
+          :status      (.-status cloned-response)
+          :status-text (.-statusText cloned-response)
+          :type        (.-type cloned-response)
+          :url         (.-url cloned-response)
+          :headers     (headers->map (.-headers cloned-response))
+          :body        body})))))
+  response)
+
 (defn- as-transform [f response]
   (-> response
       meta
@@ -54,15 +79,8 @@
                      :status (:status response)}))))
 
 (defn- transform-response-node [n]
-  (cond
-    (instance? (.-Headers fetch-impl) n)
-    (->> n
-         .entries
-         es6-iterator-seq
-         (map b/->clj)
-         (into {}))
-
-    :else nil))
+  (when (instance? (.-Headers fetch-impl) n)
+    (headers->map n)))
 
 (defn response->clj [response]
   (let [clj-res (b/bean response
@@ -85,30 +103,10 @@
             (update ctx :response response->clj))})
 
 (defn handler [[url fetch-options]]
-  (when *DEBUG*
-    (js/console.log (str ">> " url) fetch-options))
+  (when *DEBUG* (js/console.log (str ">>> " url) fetch-options))
   (let [promise (fetch-impl url fetch-options)]
     (if *DEBUG*
-      (-> promise
-          (p/then (fn [response]
-                    (let [clone-response (.clone response)
-                          clone-headers  (->> (.-headers clone-response)
-                                             .entries
-                                             es6-iterator-seq
-                                             (mapv b/->clj)
-                                             (into {}))
-                          debug-response {:ok          (.-ok clone-response)
-                                          :redirected  (.-redirected clone-response)
-                                          :status      (.-status clone-response)
-                                          :status-text (.-statusText clone-response)
-                                          :type        (.-type clone-response)
-                                          :url         (.-url clone-response)
-                                          :headers     clone-headers}]
-                      (-> (.text clone-response)
-                          (p/then (fn [body]
-                                    (js/console.log "<< "
-                                                    (clj->js (assoc debug-response :body body)))))))
-                    response)))
+      (p/then promise log-response)
       promise)))
 
 (def internal-pre-interceptors
@@ -177,8 +175,8 @@
   (create-accept-interceptor
    {:accept "text/plain"
     :response-transformer as-text}))
-(comment
 
+(comment
   (-> (fetch "https://api.staging.transit.dev/v2/campaign/pull-campaigns"
              {:method :post
               :body {:pull "[*]"}
@@ -186,7 +184,5 @@
                              (accept-json-interceptor)]})
       (p/then #(def res %))
       (p/catch #(def res %)))
-
   (meta res)
-
   nil)
