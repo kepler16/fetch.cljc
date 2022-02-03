@@ -9,6 +9,7 @@
     "node": "node target/node-test.js",
     "node:watch": "shadow-cljs -A:test watch node-test",
     "karma:build": "shadow-cljs -A:test release karma-test",
+    "server:build": "shadow-cljs -A:test release test-server",
     "karma": "karma start --single-run",
     "karma:start": "karma start",
     "karma:watch": "shadow-cljs -A:test watch karma-test"

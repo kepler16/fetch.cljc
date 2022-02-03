@@ -71,7 +71,8 @@
       {:response response})))
 
 (def interceptor_options->fetch
-  {:enter (fn [ctx]
+  {:name "interceptor_options->fetch"
+   :enter (fn [ctx]
             (update ctx :request
                     (fn [options]
                       [(:url options)
@@ -85,7 +86,8 @@
   (fetch-impl url fetch-options))
 
 (def internal-pre-interceptors
-  [{:leave (fn [ctx]
+  [{:name "internal-pre-interceptors"
+    :leave (fn [ctx]
              (let [meta-map {:ctx ctx}]
                (update ctx :response #(with-meta % (merge (meta %) meta-map)))))}])
 
@@ -114,17 +116,18 @@
    (execute (assoc options :url url))))
 
 (defn content-type-json-interceptor []
-  {:enter (fn [ctx]
+  {:name "content-type-json-interceptor"
+   :enter (fn [ctx]
             (-> ctx
                 (assoc-in [:request :headers "content-type"] "application/json")
                 (update-in [:request :body] #(-> % b/->js js/JSON.stringify))))})
 
-(defn create-accept-interceptor [{:keys [accept response-transformer]}]
+(defn create-accept-interceptor [{:keys [accept response-transformer name]}]
   (fn accept-interceptor
     ([] (accept-interceptor {}))
     ([{:keys [only-ok?] :or {only-ok? false}}]
-
-     {:enter (fn [ctx]
+     {:name (or name (str "accept-" accept "-interceptor"))
+      :enter (fn [ctx]
                (-> ctx
                    (assoc-in [:request :headers "accept"] accept)))
 

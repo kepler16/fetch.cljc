@@ -23,7 +23,7 @@
               :or {host (:host config)
                    port (:port config)
                    handler cases}}]
-  (prn ::start)
+  (prn ::start :host host  :port port)
   (reset! *server (.createServer http handler))
   (.listen ^js @*server port host))
 
