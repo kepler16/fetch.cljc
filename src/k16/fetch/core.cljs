@@ -5,6 +5,8 @@
             [cljs.reader :as reader]
             [sieppari.core :as sieppari]))
 
+(def ^:dynamic *DEBUG* false)
+
 (defn browser? []
   (and (exists? js/window)
        (not (exists? js/nw))))
@@ -83,7 +85,31 @@
             (update ctx :response response->clj))})
 
 (defn handler [[url fetch-options]]
-  (fetch-impl url fetch-options))
+  (when *DEBUG*
+    (js/console.log (str ">> " url) fetch-options))
+  (let [promise (fetch-impl url fetch-options)]
+    (if *DEBUG*
+      (-> promise
+          (p/then (fn [response]
+                    (let [clone-response (.clone response)
+                          clone-headers  (->> (.-headers clone-response)
+                                             .entries
+                                             es6-iterator-seq
+                                             (mapv b/->clj)
+                                             (into {}))
+                          debug-response {:ok          (.-ok clone-response)
+                                          :redirected  (.-redirected clone-response)
+                                          :status      (.-status clone-response)
+                                          :status-text (.-statusText clone-response)
+                                          :type        (.-type clone-response)
+                                          :url         (.-url clone-response)
+                                          :headers     clone-headers}]
+                      (-> (.text clone-response)
+                          (p/then (fn [body]
+                                    (js/console.log "<< "
+                                                    (clj->js (assoc debug-response :body body)))))))
+                    response)))
+      promise)))
 
 (def internal-pre-interceptors
   [{:name "internal-pre-interceptors"
