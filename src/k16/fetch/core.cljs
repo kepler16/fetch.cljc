@@ -5,11 +5,38 @@
             [cljs.reader :as reader]
             [sieppari.core :as sieppari]))
 
+(def ^:dynamic *DEBUG* false)
+
 (defn browser? []
   (and (exists? js/window)
        (not (exists? js/nw))))
 
 (def fetch-impl (if (browser?) js/fetch nfetch))
+
+(defn headers->map [headers]
+  (->> headers
+       (.entries)
+       (es6-iterator-seq)
+       (mapv b/->clj)
+       (into {})))
+
+(defn log-response [response]
+  (let [cloned-response (.clone response)]
+    (p/then
+     (.text cloned-response)
+     (fn [body]
+       (js/console.log
+        "<<< "
+        (clj->js
+         {:ok          (.-ok cloned-response)
+          :redirected  (.-redirected cloned-response)
+          :status      (.-status cloned-response)
+          :status-text (.-statusText cloned-response)
+          :type        (.-type cloned-response)
+          :url         (.-url cloned-response)
+          :headers     (headers->map (.-headers cloned-response))
+          :body        body})))))
+  response)
 
 (defn- as-transform [f response]
   (-> response
@@ -52,15 +79,8 @@
                      :status (:status response)}))))
 
 (defn- transform-response-node [n]
-  (cond
-    (instance? (.-Headers fetch-impl) n)
-    (->> n
-         .entries
-         es6-iterator-seq
-         (map b/->clj)
-         (into {}))
-
-    :else nil))
+  (when (instance? (.-Headers fetch-impl) n)
+    (headers->map n)))
 
 (defn response->clj [response]
   (let [clj-res (b/bean response
@@ -71,18 +91,27 @@
       {:response response})))
 
 (def interceptor_options->fetch
-  {:enter (fn [ctx]
+  {:name "interceptor_options->fetch"
+   :enter (fn [ctx]
             (update ctx :request
                     (fn [options]
-                      [(:url options) (b/->js (dissoc options :url :interceptors))])))
+                      [(:url options)
+                       (b/->js (-> options
+                                   (dissoc :url :interceptors)
+                                   (dissoc :url :post-interceptors)))])))
    :leave (fn [ctx]
             (update ctx :response response->clj))})
 
 (defn handler [[url fetch-options]]
-  (fetch-impl url fetch-options))
+  (when *DEBUG* (js/console.log (str ">>> " url) fetch-options))
+  (let [promise (fetch-impl url fetch-options)]
+    (if *DEBUG*
+      (p/then promise log-response)
+      promise)))
 
 (def internal-pre-interceptors
-  [{:leave (fn [ctx]
+  [{:name "internal-pre-interceptors"
+    :leave (fn [ctx]
              (let [meta-map {:ctx ctx}]
                (update ctx :response #(with-meta % (merge (meta %) meta-map)))))}])
 
@@ -111,17 +140,18 @@
    (execute (assoc options :url url))))
 
 (defn content-type-json-interceptor []
-  {:enter (fn [ctx]
+  {:name "content-type-json-interceptor"
+   :enter (fn [ctx]
             (-> ctx
                 (assoc-in [:request :headers "content-type"] "application/json")
                 (update-in [:request :body] #(-> % b/->js js/JSON.stringify))))})
 
-(defn create-accept-interceptor [{:keys [accept response-transformer]}]
+(defn create-accept-interceptor [{:keys [accept response-transformer name]}]
   (fn accept-interceptor
     ([] (accept-interceptor {}))
     ([{:keys [only-ok?] :or {only-ok? false}}]
-
-     {:enter (fn [ctx]
+     {:name (or name (str "accept-" accept "-interceptor"))
+      :enter (fn [ctx]
                (-> ctx
                    (assoc-in [:request :headers "accept"] accept)))
 
@@ -145,8 +175,8 @@
   (create-accept-interceptor
    {:accept "text/plain"
     :response-transformer as-text}))
-(comment
 
+(comment
   (-> (fetch "https://api.staging.transit.dev/v2/campaign/pull-campaigns"
              {:method :post
               :body {:pull "[*]"}
@@ -154,7 +184,5 @@
                              (accept-json-interceptor)]})
       (p/then #(def res %))
       (p/catch #(def res %)))
-
   (meta res)
-
   nil)
