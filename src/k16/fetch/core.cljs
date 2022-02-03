@@ -74,7 +74,10 @@
   {:enter (fn [ctx]
             (update ctx :request
                     (fn [options]
-                      [(:url options) (b/->js (dissoc options :url :interceptors))])))
+                      [(:url options)
+                       (b/->js (-> options
+                                   (dissoc :url :interceptors)
+                                   (dissoc :url :post-interceptors)))])))
    :leave (fn [ctx]
             (update ctx :response response->clj))})
 
